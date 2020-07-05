@@ -3,7 +3,7 @@ import merge from 'webpack-merge';
 import common from './webpack.common.js';
 import path from 'path';
 
-export default merge(common, {
+const config = merge(common, {
   devtool: 'none',
   mode: 'production',
   plugins: [
@@ -12,3 +12,5 @@ export default merge(common, {
     })
   ]
 });
+
+export default [config];

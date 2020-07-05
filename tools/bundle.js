@@ -1,17 +1,19 @@
 import webpack from 'webpack';
 import webpackConfig from '../webpack.dev';
+import webpackConfigProd from '../webpack.prod';
 
 /**
  * Creates application bundles from the source files.
  */
-function bundle() {
+const bundle = (env) => {
+  const config = env === 'dev' ? webpackConfig : webpackConfigProd
   return new Promise((resolve, reject) => {
-    webpack(webpackConfig).run((err, stats) => {
+    webpack(config).run((err, stats) => {
       if (err) {
         return reject(err);
       }
 
-      console.info(stats.toString(webpackConfig[0].stats));
+      console.info(stats.toString(config[0].stats));
       if (stats.hasErrors()) {
         return reject(new Error('Webpack compilation errors'));
       }
