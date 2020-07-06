@@ -9,7 +9,8 @@ import { Logo } from './components/layout/Logo';
 import { MainNav } from './components/layout/MainNav';
 import { MainContent } from './components/layout/MainContent';
 import { RecoilRoot } from 'recoil';
-import { ViewChronicle } from './features/view-chronicle';
+import { RootChronicle } from './features/view-chronicle';
+import ErrorBoundary from 'antd/lib/alert/ErrorBoundary';
 
 const { Header, Content, Footer } = Layout;
 
@@ -29,17 +30,19 @@ export const Application: FunctionComponent<{}> = () => {
             <Breadcrumb.Item>App</Breadcrumb.Item>
           </Breadcrumb> */}
             <MainContent>
-              <Switch>
-                <Route path="/chronicle/create">
-                  <CreateChronicle />
-                </Route>
-                <Route path="/character/create">
-                  <CreateCharacter />
-                </Route>
-                <Route exact path="/chronicle/:id">
-                  <ViewChronicle />
-                </Route>
-              </Switch>
+              <ErrorBoundary fallback={<div>Oh no</div>}>
+                <Switch>
+                  <Route path="/chronicle/create">
+                    <CreateChronicle />
+                  </Route>
+                  <Route path="/character/create">
+                    <CreateCharacter />
+                  </Route>
+                  <Route exact path="/chronicle/:id">
+                    <RootChronicle />
+                  </Route>
+                </Switch>
+              </ErrorBoundary>
             </MainContent>
           </Content>
           <Footer style={{ textAlign: 'center' }}>Chronicle UI Created by Tyler Cvetan</Footer>

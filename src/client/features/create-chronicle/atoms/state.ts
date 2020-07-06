@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-export const state = atom({
+export const createState = atom({
   key: 'CreateChronicleState',
   default: null,
 });

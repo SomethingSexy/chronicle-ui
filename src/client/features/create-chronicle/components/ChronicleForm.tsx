@@ -1,7 +1,9 @@
-import React, { useState, FunctionComponent } from 'react';
-import { Form, Input, Button, Radio, Select, Cascader, DatePicker, InputNumber, TreeSelect, Switch } from 'antd';
-import { state } from '../atoms/state';
+import React, { FunctionComponent, useCallback } from 'react';
+import { Form, Input, Button, Cascader, DatePicker } from 'antd';
+import { createState } from '../atoms/state';
 import { useRecoilValue } from 'recoil';
+import { Chronicle } from '../../../atoms/chronicles';
+import { compose } from '../../../utils/compose';
 
 const tailLayout = {
   wrapperCol: { offset: 4, span: 16 },
@@ -22,14 +24,19 @@ const gameRules = [
 ];
 
 export const ChronicleForm: FunctionComponent<{
-  onSubmit: (chronicle: object) => void;
+  onSubmit: (chronicle: Chronicle) => void;
 }> = ({ onSubmit }) => {
-  const creatingState = useRecoilValue(state);
-  // @ts-ignore
-  const onFinish = (values) => {
-    console.log(values);
-    onSubmit(values);
-  };
+  const state = useRecoilValue(createState);
+  const onFinish = useCallback(
+    (values: Chronicle) => {
+      compose(onSubmit, (c) => ({
+        ...c,
+        // @ts-ignore
+        startingDate: values.startingDate.format(),
+      }))(values);
+    },
+    [onSubmit]
+  );
 
   return (
     <div>
@@ -60,7 +67,7 @@ export const ChronicleForm: FunctionComponent<{
           <Input />
         </Form.Item>
         <Form.Item {...tailLayout}>
-          <Button loading={creatingState === 'loading'} type="primary" htmlType="submit">
+          <Button loading={state === 'loading'} type="primary" htmlType="submit">
             Submit
           </Button>
         </Form.Item>

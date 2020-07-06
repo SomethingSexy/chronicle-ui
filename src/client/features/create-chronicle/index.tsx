@@ -2,8 +2,8 @@ import React, { FunctionComponent, useEffect } from 'react';
 import { Typography } from 'antd';
 import { ChronicleForm } from './components/ChronicleForm';
 import { createChronicle } from './atoms/createChronicle';
-import { useRecoilState, useSetRecoilState, selector, useRecoilCallback, useRecoilValue } from 'recoil';
-import { state } from './atoms/state';
+import { useRecoilState, useSetRecoilState, useRecoilCallback } from 'recoil';
+import { createState } from './atoms/state';
 import { useHistory } from 'react-router-dom';
 import { chronicles } from '../../atoms/chronicles';
 
@@ -11,7 +11,7 @@ const { Title } = Typography;
 
 const useCreateChronicle = () => {
   const [chronicle, setChronicle] = useRecoilState(createChronicle);
-  const setState = useSetRecoilState(state);
+  const setState = useSetRecoilState(createState);
   const history = useHistory();
   const storeChronicle = useRecoilCallback(
     ({ set }) => (c) => {
