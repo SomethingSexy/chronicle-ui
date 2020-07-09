@@ -1,15 +1,14 @@
-import { FunctionComponent, Children, ReactNode, useMemo } from 'react';
+import { FunctionComponent, ReactNode, useMemo } from 'react';
 import React from 'react';
-import { PageHeader, Button } from 'antd';
-import { Chronicle, chroniclesState } from '../../../atoms/chronicles';
-import { useRecoilValue } from 'recoil';
+import { PageHeader, Button, Divider } from 'antd';
+import { Chronicle } from '../../../atoms/chronicles';
 import { ChronicleSummary } from './ChronicleSummary';
+import { useHistory } from 'react-router-dom';
 
 export const ChronicleView: FunctionComponent<{
+  chronicle: Chronicle;
   children: (c: Chronicle) => ReactNode;
-  id: string;
-}> = ({ id, children }) => {
-  const chronicle = useRecoilValue(chroniclesState(id));
+}> = ({ chronicle, children }) => {
   const routes = useMemo(() => {
     return [
       {
@@ -22,6 +21,7 @@ export const ChronicleView: FunctionComponent<{
       },
     ];
   }, [chronicle]);
+  const history = useHistory();
   return (
     <>
       <PageHeader
@@ -33,11 +33,19 @@ export const ChronicleView: FunctionComponent<{
             Edit
           </Button>,
           <Button key="3">Add Player</Button>,
-          <Button key="2">Add Character</Button>,
+          <Button
+            key="2"
+            onClick={() => {
+              history.push('/character/create?id=123');
+            }}
+          >
+            Add Character
+          </Button>,
         ]}
       >
         <ChronicleSummary chronicle={chronicle} />
       </PageHeader>
+      <Divider />
       {children(chronicle)}
     </>
   );

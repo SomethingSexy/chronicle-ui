@@ -1,7 +1,5 @@
 import React, { FunctionComponent, useCallback } from 'react';
 import { Form, Input, Button, Cascader, DatePicker } from 'antd';
-import { createState } from '../atoms/state';
-import { useRecoilValue } from 'recoil';
 import { Chronicle } from '../../../atoms/chronicles';
 import { compose } from '../../../utils/compose';
 
@@ -24,9 +22,9 @@ const gameRules = [
 ];
 
 export const ChronicleForm: FunctionComponent<{
+  submitting?: boolean;
   onSubmit: (chronicle: Chronicle) => void;
-}> = ({ onSubmit }) => {
-  const state = useRecoilValue(createState);
+}> = ({ submitting, onSubmit }) => {
   const onFinish = useCallback(
     (values: Chronicle) => {
       compose(onSubmit, (c) => ({
@@ -67,7 +65,7 @@ export const ChronicleForm: FunctionComponent<{
           <Input />
         </Form.Item>
         <Form.Item {...tailLayout}>
-          <Button loading={state === 'loading'} type="primary" htmlType="submit">
+          <Button loading={submitting} type="primary" htmlType="submit">
             Submit
           </Button>
         </Form.Item>

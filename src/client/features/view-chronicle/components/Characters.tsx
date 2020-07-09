@@ -1,10 +1,15 @@
 import { FunctionComponent } from 'react';
 import React from 'react';
+import { Typography } from 'antd';
 
-export const Characters: FunctionComponent<{
-  items?: any[];
-}> = ({ items }) => {
-  if (!items || !items.length) {
-    return <div>No Players Have Been Added</div>;
-  }
+const { Title } = Typography;
+
+export const Characters: FunctionComponent = () => {
+  const characters = [];
+  return (
+    <>
+      <Title level={4}>Characters</Title>
+      {!characters || (!characters.length && <div>No Characters Have Been Added</div>)}
+    </>
+  );
 };

@@ -11,9 +11,9 @@ export const ChronicleSummary: FunctionComponent<{
     <Descriptions size="small" column={3}>
       <Descriptions.Item label="Game">{chronicle.gameName}</Descriptions.Item>
       <Descriptions.Item label="City">{chronicle.city}</Descriptions.Item>
-      <Descriptions.Item label="StartingDate">{chronicle.startingDate}</Descriptions.Item>
-      <Descriptions.Item label="NumberOfPlayers">0</Descriptions.Item>
-      <Descriptions.Item label="NumberOfCharacters">0</Descriptions.Item>
+      <Descriptions.Item label="Starting Date">{chronicle.startingDate}</Descriptions.Item>
+      <Descriptions.Item label="Number Of Players">0</Descriptions.Item>
+      <Descriptions.Item label="Number Of Characters">0</Descriptions.Item>
     </Descriptions>
   );
 };
