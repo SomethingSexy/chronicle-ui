@@ -4,7 +4,7 @@ const logoStyle = {
   color: 'white',
   width: '120px',
   height: '31px',
-  float: 'left',
+  float: 'left'
 } as CSSProperties;
 
 export const Logo: FunctionComponent = () => {

@@ -15,7 +15,7 @@ export const createChronicle: CreateChronicle = async ({ values }) => {
   chronicleCache[counter] = compose((c: Chronicle) => ({
     ...c,
     id: counter,
-    gameName: c.game.join(' '),
+    gameName: c.game.join(' ')
   }))(values);
 
   return chronicleCache[counter];
@@ -23,5 +23,6 @@ export const createChronicle: CreateChronicle = async ({ values }) => {
 
 export type FetchChronicle = (id: string) => Promise<Chronicle>;
 export const fetchChronicle: FetchChronicle = async (id: string) => {
+  await new Promise((r) => setTimeout(r, 1000));
   return chronicleCache[id];
 };

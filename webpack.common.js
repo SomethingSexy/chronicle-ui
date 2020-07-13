@@ -86,7 +86,14 @@ export default {
       use: [MiniCssExtractPlugin.loader, 'css-loader']
     }, {
       test: /\.less$/,
-      use: [MiniCssExtractPlugin.loader, 'css-loader', 'less-loader']
+      use: [
+        MiniCssExtractPlugin.loader,
+        'css-loader', {
+          loader: 'less-loader',
+          options: {
+            lessOptions: { javascriptEnabled: true }
+          } 
+      }]
     }, {
       test: /\.(eot|woff|woff2|ttf|svg|png|jpg|jpeg)(\?v=\d+.\d+.\d+)?$/,
       use: [{

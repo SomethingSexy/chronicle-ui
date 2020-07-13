@@ -1,62 +1,106 @@
-import { Machine, assign } from 'xstate';
+import { Machine, assign, spawn, Interpreter } from 'xstate';
+import { characterMachine, CharacterContext } from './character';
+import { Chronicle, Character } from '../../../atoms/chronicles';
 
-export const chronicleMachine = Machine(
+interface ChronicleContext {
+  chronicleId: string | null;
+  chronicle: Chronicle | null;
+  characters: Array<
+    Character & {
+      ref: Interpreter<CharacterContext>;
+    }
+  >;
+  message: any;
+}
+
+export const chronicleMachine = Machine<ChronicleContext>(
   {
     id: 'Chronicle',
     initial: 'idle',
     context: {
-      id: null,
+      chronicleId: null,
       chronicle: null,
-      message: '',
+      characters: [],
+      message: ''
+    },
+    on: {
+      'CHARACTER.ADD': 'character.create',
+      READ: 'idle'
     },
     states: {
       idle: {
-        // TODO: Add guard to know if we should actually go to fetching
-        on: { FETCH: [{ target: 'fetching', actions: ['onChange'] }] },
+        id: 'idle',
+        // TODO: Add guard to know if we should actually go to initializing
+        on: { FETCH: [{ target: 'initializing', actions: ['onChange'] }] }
       },
-      fetching: {
+      initializing: {
         initial: 'pending',
         states: {
           idle: {},
           pending: {
             invoke: {
               src: 'fetchData',
-              onDone: { target: 'successful', actions: ['setResults'] },
-              onError: { target: 'failed', actions: ['setMessage'] },
-            },
+              onDone: { target: 'successful', actions: ['setResults', 'setCharacters'] },
+              onError: { target: 'failed', actions: ['setMessage'] }
+            }
           },
           failed: {
             on: {
-              FETCH: 'pending',
-            },
+              FETCH: 'pending'
+            }
           },
           successful: {
-            always: '#loaded',
+            always: '#idle',
             on: {
-              FETCH: 'pending',
-            },
-          },
-        },
+              FETCH: 'pending'
+            }
+          }
+        }
       },
-      loaded: {
-        id: 'loaded',
-      },
-    },
+      character: {
+        initial: 'reading',
+        states: {
+          reading: {},
+          create: {}
+        }
+      }
+    }
   },
   {
     actions: {
-      setResults: assign((ctx, event: any) => {
+      setResults: assign<
+        ChronicleContext,
+        {
+          type: 'setResults';
+          data: Chronicle;
+        }
+      >((ctx, event) => {
         console.log(event);
         return {
-          chronicle: event.data,
+          chronicle: event.data
         };
       }),
-      setMessage: assign((ctx, event: any) => ({
-        message: event.data,
-      })),
-      onChange: assign({
-        id: (ctx, e) => e.id,
+      setCharacters: assign<ChronicleContext>({
+        characters: (ctx) => {
+          console.log(ctx.characters);
+          return ctx.characters.map((character) => ({
+            ...character,
+            ref: spawn(characterMachine.withContext({ character }))
+          }));
+        }
       }),
-    },
+      setMessage: assign((ctx, event: any) => ({
+        message: event.data
+      })),
+      onChange: assign<
+        ChronicleContext,
+        {
+          type: 'onChange';
+          id: string;
+        }
+      >({
+        chronicleId: (ctx, e: { id: string }) => e.id
+      })
+    }
   }
 );

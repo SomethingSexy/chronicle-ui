@@ -6,7 +6,7 @@ export const useQuery = () => {
   for (let pair of search) {
     query = {
       ...query,
-      [pair[0]]: pair[1],
+      [pair[0]]: pair[1]
     };
   }
 

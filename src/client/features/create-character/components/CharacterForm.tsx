@@ -6,21 +6,21 @@ import { Chronicle } from '../../../atoms/chronicles';
 import { compose } from '../../../utils/compose';
 
 const tailLayout = {
-  wrapperCol: { offset: 4, span: 16 },
+  wrapperCol: { offset: 4, span: 16 }
 };
 
 const nameRules = [
   {
     required: true,
-    message: 'Please name your chronicle',
-  },
+    message: 'Please name your chronicle'
+  }
 ];
 
 const gameRules = [
   {
     required: true,
-    message: 'Please select your game',
-  },
+    message: 'Please select your game'
+  }
 ];
 
 export const CharacterForm: FunctionComponent<{
@@ -32,7 +32,7 @@ export const CharacterForm: FunctionComponent<{
       compose(onSubmit, (c) => ({
         ...c,
         // @ts-ignore
-        startingDate: values.startingDate.format(),
+        startingDate: values.startingDate.format()
       }))(values);
     },
     [onSubmit]
@@ -53,10 +53,10 @@ export const CharacterForm: FunctionComponent<{
                 children: [
                   {
                     value: 'v5',
-                    label: 'v5',
-                  },
-                ],
-              },
+                    label: 'v5'
+                  }
+                ]
+              }
             ]}
           />
         </Form.Item>

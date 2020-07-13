@@ -19,44 +19,44 @@ const formMachine = Machine<{
     // Context contains all our infinite state, like text input!
     context: {
       errors: {},
-      values: {},
+      values: {}
     },
     states: {
       editing: {
         initial: 'pristine',
         on: {
           CHANGE: {
-            actions: ['onChange'],
+            actions: ['onChange']
           },
-          SUBMIT: 'submitting',
+          SUBMIT: 'submitting'
         },
         states: {
           pristine: {
             // This is up to you, but I felt like the form needed to be cleared before receiving a new submission
-            entry: ['clearForm'],
+            entry: ['clearForm']
           },
-          error: {},
-        },
+          error: {}
+        }
       },
       submitting: {
         invoke: {
           src: 'onSubmit',
           onDone: {
             target: 'success',
-            actions: ['onSuccess'],
+            actions: ['onSuccess']
           },
           onError: {
             target: 'editing.error',
-            actions: ['onError'],
-          },
-        },
+            actions: ['onError']
+          }
+        }
       },
       success: {
         on: {
-          AGAIN: 'editing',
-        },
-      },
-    },
+          AGAIN: 'editing'
+        }
+      }
+    }
   },
   {
     actions: {
@@ -64,27 +64,27 @@ const formMachine = Machine<{
       onChange: assign({
         values: (ctx, e) => ({
           ...ctx.values,
-          ...e.values,
-        }),
+          ...e.values
+        })
       }),
       clearForm: assign({
         values: {},
-        errors: {},
+        errors: {}
       }),
       onError: assign({
-        errors: (_ctx, e) => e.data,
+        errors: (_ctx, e) => e.data
       }),
       onSuccess: assign({
-        values: (ctx, e) => e.data,
-      }),
-    },
+        values: (ctx, e) => e.data
+      })
+    }
   }
 );
 
 export const CreateChronicle: FunctionComponent<{}> = () => {
   const history = useHistory();
   const [state, send] = useMachine(formMachine, {
-    services: { onSubmit: createChronicle },
+    services: { onSubmit: createChronicle }
   });
 
   const handleChange = useCallback(

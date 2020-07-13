@@ -1,27 +1,22 @@
-import { FunctionComponent, ReactNode, useMemo } from 'react';
+import { FunctionComponent, ReactNode, useMemo, useState, useCallback } from 'react';
 import React from 'react';
-import { PageHeader, Button, Divider } from 'antd';
+import { PageHeader, Button, Divider, Typography } from 'antd';
 import { Chronicle } from '../../../atoms/chronicles';
 import { ChronicleSummary } from './ChronicleSummary';
-import { useHistory } from 'react-router-dom';
+import { Route } from 'antd/lib/breadcrumb/Breadcrumb';
+import { EditOutlined, FileTextOutlined } from '@ant-design/icons';
 
 export const ChronicleView: FunctionComponent<{
   chronicle: Chronicle;
   children: (c: Chronicle) => ReactNode;
-}> = ({ chronicle, children }) => {
-  const routes = useMemo(() => {
-    return [
-      {
-        path: 'index',
-        breadcrumbName: 'Chronicles',
-      },
-      {
-        path: 'first',
-        breadcrumbName: chronicle.name,
-      },
-    ];
-  }, [chronicle]);
-  const history = useHistory();
+  routes: Route[];
+  onCreateCharacter: () => void;
+}> = ({ chronicle, children, routes, onCreateCharacter }) => {
+  const [visible, setVisible] = useState(false);
+
+  const handleToggle = useCallback(() => {
+    setVisible(!visible);
+  }, [visible, setVisible]);
   return (
     <>
       <PageHeader
@@ -29,21 +24,16 @@ export const ChronicleView: FunctionComponent<{
         breadcrumb={{ routes }}
         subTitle={chronicle.name}
         extra={[
-          <Button key="1" type="primary">
-            Edit
-          </Button>,
+          <Button key="1" type="primary" icon={<FileTextOutlined />} onClick={handleToggle} />,
+          <Button key="2" icon={<EditOutlined />} />,
           <Button key="3">Add Player</Button>,
-          <Button
-            key="2"
-            onClick={() => {
-              history.push('/character/create?id=123');
-            }}
-          >
+          <Button key="4" onClick={onCreateCharacter}>
             Add Character
-          </Button>,
+          </Button>
         ]}
       >
-        <ChronicleSummary chronicle={chronicle} />
+        {chronicle.pitch && <Typography>{chronicle.pitch}</Typography>}
+        <ChronicleSummary chronicle={chronicle} visible={visible} onClose={handleToggle} />
       </PageHeader>
       <Divider />
       {children(chronicle)}

@@ -8,11 +8,16 @@ export interface Chronicle {
   /**
    * Brief summary of all characters in the game
    */
-  characters: Array<{
-    name: string;
-    type: 'player' | 'npc';
-  }>;
-  // summary
-  // description:
-  // game tenets
+  characters: Array<Character>;
+  pitch?: string;
+  playStyle: 'session' | 'pbp';
+  description?: string;
+  plotHook: string;
+  // game themes
+  // chronicle tenants
+}
+
+export interface Character {
+  name: string;
+  type: 'player' | 'npc';
 }
