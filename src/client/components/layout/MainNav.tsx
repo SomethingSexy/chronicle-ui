@@ -1,15 +1,17 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useContext, useCallback } from 'react';
 import React from 'react';
 import { Menu } from 'antd';
-import { Link, useLocation } from 'react-router-dom';
 import { MenuItem } from './MenuItem';
+import { ApplicationContext } from '../../atoms/applicationContext';
+import { useService } from '@xstate/react';
 
 export const MainNav: FunctionComponent = () => {
-  const location = useLocation();
+  const application = useContext(ApplicationContext);
+  const [state, send] = useService(application);
   return (
-    <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[location.pathname]}>
-      <MenuItem label="Chronicle" path="/chronicle/create" />
-      <MenuItem label="Character" path="/character/create" />
+    <Menu theme="dark" mode="horizontal">
+      <MenuItem label="Chronicle" onClick={() => send('createChronicle')} />
+      <MenuItem label="Character" onClick={() => send('createCharacter')} />
     </Menu>
   );
 };

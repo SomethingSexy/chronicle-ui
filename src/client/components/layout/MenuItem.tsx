@@ -7,11 +7,12 @@ const { Item } = Menu;
 
 export const MenuItem: FunctionComponent<{
   label: string;
-  path: string;
-}> = ({ label, path, ...props }) => {
+  onClick: () => void;
+}> = ({ label, onClick, ...props }) => {
   return (
-    <Item {...props} key={path}>
-      <Link to={path}>{label}</Link>
+    <Item {...props} onClick={onClick}>
+      {' '}
+      {label}
     </Item>
   );
 };

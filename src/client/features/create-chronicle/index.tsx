@@ -1,11 +1,11 @@
-import React, { FunctionComponent, useCallback, useEffect } from 'react';
+import React, { FunctionComponent, useCallback, useEffect, useContext } from 'react';
 import { Typography, message } from 'antd';
 import { ChronicleForm } from './components/ChronicleForm';
 import { Machine, assign } from 'xstate';
 import { Chronicle } from '../../atoms/chronicles';
-import { useMachine } from '@xstate/react';
+import { useMachine, useService } from '@xstate/react';
 import { createChronicle } from '../../api/chronicle';
-import { useHistory } from 'react-router-dom';
+import { ApplicationContext } from '../../atoms/applicationContext';
 
 const { Title } = Typography;
 
@@ -82,7 +82,8 @@ const formMachine = Machine<{
 );
 
 export const CreateChronicle: FunctionComponent<{}> = () => {
-  const history = useHistory();
+  const application = useContext(ApplicationContext);
+  const [appState, appSend] = useService(application);
   const [state, send] = useMachine(formMachine, {
     services: { onSubmit: createChronicle }
   });
@@ -97,9 +98,13 @@ export const CreateChronicle: FunctionComponent<{}> = () => {
   useEffect(() => {
     if (state.matches('success')) {
       message.success('Chronicle has been created!', 10);
-      history.push(`/chronicles/${state.context.values.id}`);
+      appSend({ type: 'VIEW_CHRONICLE', data: { id: state.context.values.id } });
     }
   }, [state.value, state.context.values]);
+
+  if (!appState.matches('createChronicle')) {
+    return null;
+  }
 
   return (
     <>

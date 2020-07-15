@@ -1,13 +1,8 @@
-import React, { CSSProperties, FunctionComponent } from 'react';
-import { Typography, Button, Form, Input, DatePicker, Radio } from 'antd';
-import { CloseCircleOutlined } from '@ant-design/icons';
+import React, { FunctionComponent, useState, useCallback } from 'react';
+import { Typography, Form, Input, DatePicker, Radio } from 'antd';
+import { Modal } from '../../../components/Modal';
 
-const { Title } = Typography;
 const { Item } = Form;
-
-const buttonStyles = {
-  float: 'right'
-} as CSSProperties;
 
 const formStyles = {
   marginTop: '10px'
@@ -35,21 +30,22 @@ export const QuickCreateCharacter: FunctionComponent<{
   onCancel: () => void;
   onFinish: (c: any) => void;
 }> = ({ submitting, onCancel, onFinish }) => {
+  const [form] = Form.useForm();
+
+  const onSubmit = useCallback((values) => {
+    // do your staff with values
+  }, []);
+
+  const onOk = useCallback(() => {
+    form.submit();
+  }, [form]);
   return (
-    <>
-      <Button
-        type="primary"
-        shape="circle"
-        icon={<CloseCircleOutlined />}
-        size="large"
-        style={buttonStyles}
-        onClick={onCancel}
-      />
-      <Title level={3}>Add Character</Title>
+    <Modal title="Add Character" visible onCancel={onCancel} onSubmit={onOk}>
       <Typography>
         Quickly add a character to the chronicle. You can edit and add more detailed information later.
       </Typography>
       <Form
+        form={form}
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 14 }}
         layout="horizontal"
@@ -66,12 +62,7 @@ export const QuickCreateCharacter: FunctionComponent<{
             <Radio.Button value="npc">NPC</Radio.Button>
           </Radio.Group>
         </Form.Item>
-        <Item {...tailLayout}>
-          <Button loading={submitting} type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Item>
       </Form>
-    </>
+    </Modal>
   );
 };

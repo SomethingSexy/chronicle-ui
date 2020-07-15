@@ -1,15 +1,19 @@
-import React, { FunctionComponent, useEffect, useCallback, useMemo } from 'react';
+import React, { FunctionComponent, useEffect, useCallback, useMemo, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { ChronicleView } from './components/ChronicleView';
 import { Skeleton, Col, Row } from 'antd';
-import { useMachine } from '@xstate/react';
+import { useMachine, useService } from '@xstate/react';
 import { fetchChronicle } from '../../api/chronicle';
 import { chronicleMachine } from './state/chronicle';
 import { DefaultView } from './components/DefaultView';
 import { QuickCreateCharacter } from './components/QuickCreateCharacter';
+import { ApplicationContext } from '../../atoms/applicationContext';
 
-export const RootChronicle: FunctionComponent = () => {
-  const { id } = useParams();
+export const ViewChronicle: FunctionComponent = () => {
+  // TODO: Add back ability to load id from url
+  // const { id } = useParams();
+  const application = useContext(ApplicationContext);
+  const [appState, appSend] = useService(application);
   const [state, send] = useMachine(chronicleMachine, {
     actions: {
       persist: (ctx) => {
@@ -18,16 +22,20 @@ export const RootChronicle: FunctionComponent = () => {
     },
     services: {
       fetchData: (data) => {
-        console.log(data);
         return fetchChronicle(data.chronicleId);
       }
     }
   });
   const { chronicle } = state.context;
 
+  // TODO: Since we are re-rendering this right away... this is stupid
+  console.log(appState.context);
   useEffect(() => {
-    send('FETCH', { id });
-  }, []);
+    console.log('RUN');
+    if (appState.context.viewId) {
+      send('FETCH', { id: appState.context.viewId });
+    }
+  }, [appState.context.viewId]);
 
   const routes = useMemo(() => {
     // TODO clean this up
@@ -75,6 +83,11 @@ export const RootChronicle: FunctionComponent = () => {
     send('READ');
   }, [send]);
 
+  console.log(appState.value);
+  if (!appState.matches('viewChronicle')) {
+    return null;
+  }
+
   return (
     <>
       {state.matches('initializing.pending') && <Skeleton active />}
@@ -83,15 +96,11 @@ export const RootChronicle: FunctionComponent = () => {
           {(c) => {
             if (state.matches('character.create')) {
               return (
-                <Row>
-                  <Col span={12}>
-                    <QuickCreateCharacter
-                      onCancel={handleDefaultView}
-                      onFinish={() => {}}
-                      submitting={state.matches('character.creating')}
-                    />
-                  </Col>
-                </Row>
+                <QuickCreateCharacter
+                  onCancel={handleDefaultView}
+                  onFinish={() => {}}
+                  submitting={state.matches('character.creating')}
+                />
               );
             }
             return <DefaultView />;

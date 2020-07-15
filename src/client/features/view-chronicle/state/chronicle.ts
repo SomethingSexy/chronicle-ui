@@ -75,14 +75,12 @@ export const chronicleMachine = Machine<ChronicleContext>(
           data: Chronicle;
         }
       >((ctx, event) => {
-        console.log(event);
         return {
           chronicle: event.data
         };
       }),
       setCharacters: assign<ChronicleContext>({
         characters: (ctx) => {
-          console.log(ctx.characters);
           return ctx.characters.map((character) => ({
             ...character,
             ref: spawn(characterMachine.withContext({ character }))

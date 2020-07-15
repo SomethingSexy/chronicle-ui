@@ -1,6 +1,4 @@
 import React, { FunctionComponent } from 'react';
-// TODO: Switch to BrowserRouter when we are running within node
-import { HashRouter as Router, Switch, Route } from 'react-router-dom';
 import { CreateChronicle } from './features/create-chronicle';
 import { CreateCharacter } from './features/create-character';
 import { Layout } from 'antd';
@@ -8,43 +6,68 @@ import './style.css';
 import { Logo } from './components/layout/Logo';
 import { MainNav } from './components/layout/MainNav';
 import { MainContent } from './components/layout/MainContent';
-import { RootChronicle } from './features/view-chronicle';
+import { RootChronicle, ViewChronicle } from './features/view-chronicle';
 import ErrorBoundary from 'antd/lib/alert/ErrorBoundary';
+import { useMachine } from '@xstate/react';
+import { Machine, assign } from 'xstate';
+import { ApplicationContext } from './atoms/applicationContext';
+import { ViewChronicles } from './features/view-chronicles';
 
 const { Header, Content, Footer } = Layout;
 
+interface ApplicationMachineContext {
+  viewId: string | null;
+}
+
+const ApplicationMachine = Machine<ApplicationMachineContext>({
+  id: 'Application',
+  initial: 'chronicles',
+  context: {
+    viewId: null
+  },
+  on: {
+    createChronicle: 'createChronicle',
+    VIEW_CHRONICLE: {
+      target: 'viewChronicle',
+      actions: [
+        assign({
+          viewId: (context, event) => {
+            console.log(event);
+            return event.data.id;
+          }
+        })
+      ]
+    }
+  },
+  states: {
+    chronicles: {},
+    createChronicle: {},
+    viewChronicle: {}
+  }
+});
+
 export const Application: FunctionComponent<{}> = () => {
+  const [state, send, service] = useMachine(ApplicationMachine);
   return (
-    <Router>
+    // <Router>
+    <ApplicationContext.Provider value={service}>
       <Layout>
         <Header>
           <Logo />
           <MainNav />
         </Header>
         <Content style={{ padding: '0 50px' }}>
-          {/* <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>App</Breadcrumb.Item>
-          </Breadcrumb> */}
           <MainContent>
             <ErrorBoundary fallback={<div>Oh no</div>}>
-              <Switch>
-                <Route path="/chronicle/create">
-                  <CreateChronicle />
-                </Route>
-                <Route path="/character/create">
-                  <CreateCharacter />
-                </Route>
-                <Route exact path="/chronicles/:id">
-                  <RootChronicle />
-                </Route>
-              </Switch>
+              <ViewChronicles />
+              <ViewChronicle />
+              <CreateChronicle />
             </ErrorBoundary>
           </MainContent>
         </Content>
         <Footer style={{ textAlign: 'center' }}>Chronicle UI Created by Tyler Cvetan</Footer>
       </Layout>
-    </Router>
+    </ApplicationContext.Provider>
+    // </Router>
   );
 };
