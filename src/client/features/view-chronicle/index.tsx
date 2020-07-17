@@ -11,14 +11,17 @@ export const ViewChronicle: FunctionComponent = () => {
   const application = useContext(ApplicationContext);
   const [appState, appSend] = useService(application);
   const [state, send] = useMachine(chronicleMachine);
-  const { chronicle } = state.context;
+  const { chronicles, viewId } = appState.context;
 
-  useEffect(() => {
-    console.log('RUN');
-    if (appState.context.viewId) {
-      send('FETCH', { id: appState.context.viewId });
-    }
-  }, []);
+  const chronicle = useMemo(() => chronicles.find((c) => c.id === viewId), [chronicles, viewId]);
+
+  //  TODO: if we land on this component we will need to add this back
+  // useEffect(() => {
+  //   console.log('RUN');
+  //   if (appState.context.viewId) {
+  //     send('FETCH', { id: appState.context.viewId });
+  //   }
+  // }, []);
 
   const routes = useMemo(() => {
     // TODO clean this up
