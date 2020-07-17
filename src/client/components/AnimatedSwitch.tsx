@@ -1,23 +1,17 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useContext } from 'react';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import { Switch, Route, useLocation, useRouteMatch } from 'react-router-dom';
 import './styles.css';
+import { ApplicationContext } from '../atoms/applicationContext';
+import { useService } from '@xstate/react';
 
-const First = () => <div className="first">First Component</div>;
-const Second = () => <div className="second">Second Component</div>;
+export const AnimatedSwitch: FunctionComponent = ({ children }) => {
+  const application = useContext(ApplicationContext);
+  const [appState, appSend] = useService(application);
 
-export const AnimatedSwitch: FunctionComponent = () => {
-  const location = useLocation();
-  const { path } = useRouteMatch();
   return (
     <TransitionGroup>
-      <CSSTransition key={location.pathname} classNames="slide" timeout={1000}>
-        <Switch location={location}>
-          <Route path={`${path}/first`}>
-            <First />
-          </Route>
-          <Route path={`${path}/second`} component={Second} />
-        </Switch>
+      <CSSTransition key={appState.value.toString()} classNames="slide" timeout={1000}>
+        {children}
       </CSSTransition>
     </TransitionGroup>
   );

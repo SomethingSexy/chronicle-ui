@@ -1,10 +1,10 @@
 import { FunctionComponent, ReactNode, useMemo, useState, useCallback } from 'react';
 import React from 'react';
 import { PageHeader, Button, Divider, Typography } from 'antd';
-import { Chronicle } from '../../../atoms/chronicles';
 import { ChronicleSummary } from './ChronicleSummary';
 import { Route } from 'antd/lib/breadcrumb/Breadcrumb';
 import { EditOutlined, FileTextOutlined } from '@ant-design/icons';
+import { Chronicle } from '../../../types';
 
 export const ChronicleView: FunctionComponent<{
   chronicle: Chronicle;

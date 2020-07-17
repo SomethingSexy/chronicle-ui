@@ -1,9 +1,9 @@
 import { FunctionComponent, useMemo } from 'react';
 import React from 'react';
 import { Drawer, Row, Col } from 'antd';
-import { Chronicle } from '../../../atoms/chronicles';
 import { SummaryItem } from './SummaryItem';
 import { formatDate } from '../../../utils/date';
+import { Chronicle } from '../../../types';
 
 export const ChronicleSummary: FunctionComponent<{
   chronicle: Chronicle;

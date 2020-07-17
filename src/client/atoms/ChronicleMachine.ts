@@ -1,8 +1,6 @@
 import { Machine, assign, spawn, Interpreter } from 'xstate';
-import { characterMachine, CharacterContext } from './character';
-import { Chronicle, Character } from '../../../atoms/chronicles';
 
-interface ChronicleContext {
+export interface ChronicleContext {
   chronicleId: string | null;
   chronicle: Chronicle | null;
   characters: Array<
@@ -102,3 +100,4 @@ export const chronicleMachine = Machine<ChronicleContext>(
     }
   }
 );
+import { Chronicle, Character } from '../types';
