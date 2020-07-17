@@ -1,13 +1,12 @@
 import { Chronicle } from '../types';
-import { assign, Interpreter, Machine } from 'xstate';
-import { ChronicleContext } from './ChronicleMachine';
+import { assign, Interpreter, Machine, spawn } from 'xstate';
+import { ChronicleContext, chronicleMachine } from './ChronicleMachine';
 
 export interface ApplicationMachineContext {
   chronicles: Array<
-    Chronicle
-    // & {
-    //   ref: Interpreter<ChronicleContext>;
-    // }
+    Chronicle & {
+      ref: Interpreter<ChronicleContext>;
+    }
   >;
   viewId: string | null;
 }
@@ -32,7 +31,8 @@ export const ApplicationMachine = Machine<ApplicationMachineContext>(
             }
           })
         ]
-      }
+      },
+      VIEW_CHRONICLES: 'chronicles'
     },
     states: {
       chronicles: {},
@@ -72,7 +72,19 @@ export const ApplicationMachine = Machine<ApplicationMachineContext>(
           data: Chronicle;
         }
       >({
-        chronicles: (ctx, event) => [...ctx.chronicles, event.data]
+        chronicles: (ctx, event) => [
+          ...ctx.chronicles,
+          {
+            ...event.data,
+            ref: spawn(
+              chronicleMachine.withContext({
+                chronicleId: event.data.id,
+                chronicle: event.data,
+                characters: event.data.characters
+              })
+            )
+          }
+        ]
       })
     }
   }

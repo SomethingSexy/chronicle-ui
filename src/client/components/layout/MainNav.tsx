@@ -10,8 +10,8 @@ export const MainNav: FunctionComponent = () => {
   const [state, send] = useService(application);
   return (
     <Menu theme="dark" mode="horizontal">
-      <MenuItem label="Chronicle" onClick={() => send('CREATE_CHRONICLE')} />
-      <MenuItem label="Character" onClick={() => send('createCharacter')} />
+      <MenuItem label="Chronicles" onClick={() => send('VIEW_CHRONICLES')} />
+      <MenuItem label="Characters" onClick={() => send('createCharacter')} />
     </Menu>
   );
 };

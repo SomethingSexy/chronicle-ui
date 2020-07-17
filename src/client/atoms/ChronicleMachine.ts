@@ -4,11 +4,12 @@ export interface ChronicleContext {
   chronicleId: string | null;
   chronicle: Chronicle | null;
   characters: Array<
-    Character & {
-      ref: Interpreter<CharacterContext>;
-    }
+    Character
+    // & {
+    //   ref: Interpreter<CharacterContext>;
+    // }
   >;
-  message: any;
+  // message: any;
 }
 
 export const chronicleMachine = Machine<ChronicleContext>(
@@ -18,8 +19,7 @@ export const chronicleMachine = Machine<ChronicleContext>(
     context: {
       chronicleId: null,
       chronicle: null,
-      characters: [],
-      message: ''
+      characters: []
     },
     on: {
       'CHARACTER.ADD': 'character.create',
@@ -27,39 +27,47 @@ export const chronicleMachine = Machine<ChronicleContext>(
     },
     states: {
       idle: {
-        id: 'idle',
+        id: 'idle'
         // TODO: Add guard to know if we should actually go to initializing
-        on: { FETCH: [{ target: 'initializing', actions: ['onChange'] }] }
+        // on: { FETCH: [{ target: 'initializing', actions: ['onChange'] }] }
       },
-      initializing: {
-        initial: 'pending',
-        states: {
-          idle: {},
-          pending: {
-            invoke: {
-              src: 'fetchData',
-              onDone: { target: 'successful', actions: ['setResults', 'setCharacters'] },
-              onError: { target: 'failed', actions: ['setMessage'] }
-            }
-          },
-          failed: {
-            on: {
-              FETCH: 'pending'
-            }
-          },
-          successful: {
-            always: '#idle',
-            on: {
-              FETCH: 'pending'
-            }
-          }
-        }
-      },
+      // initializing: {
+      //   initial: 'pending',
+      //   states: {
+      //     idle: {},
+      //     pending: {
+      //       invoke: {
+      //         src: 'fetchData',
+      //         onDone: { target: 'successful', actions: ['setResults', 'setCharacters'] },
+      //         onError: { target: 'failed', actions: ['setMessage'] }
+      //       }
+      //     },
+      //     failed: {
+      //       on: {
+      //         FETCH: 'pending'
+      //       }
+      //     },
+      //     successful: {
+      //       always: '#idle',
+      //       on: {
+      //         FETCH: 'pending'
+      //       }
+      //     }
+      //   }
+      // },
       character: {
         initial: 'reading',
         states: {
           reading: {},
-          create: {}
+          create: {
+            on: {
+              SUBMIT: 'creating'
+            }
+          },
+          creating: {
+            entry: 'created'
+          },
+          created: {}
         }
       }
     }
@@ -85,9 +93,6 @@ export const chronicleMachine = Machine<ChronicleContext>(
           }));
         }
       }),
-      setMessage: assign((ctx, event: any) => ({
-        message: event.data
-      })),
       onChange: assign<
         ChronicleContext,
         {

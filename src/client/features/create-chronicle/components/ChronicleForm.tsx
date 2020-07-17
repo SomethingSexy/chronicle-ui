@@ -1,9 +1,9 @@
 import React, { FunctionComponent, useCallback } from 'react';
 import { Form, Input, Button, Cascader, Radio } from 'antd';
-import { Chronicle } from '../../../atoms/chronicles';
 import { compose } from '../../../utils/compose';
 import { PitchLabel } from './PitchLabel';
 import { DatePicker } from '../../../components/DatePicker';
+import { Chronicle } from '../../../types';
 
 const tailLayout = {
   wrapperCol: { offset: 4, span: 16 }
