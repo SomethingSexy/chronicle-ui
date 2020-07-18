@@ -14,6 +14,7 @@ import { ViewChronicles } from './features/view-chronicles';
 import { RenderRoot } from './components/RenderRoot';
 import { ApplicationMachine } from './atoms/applicationMachine';
 import { fetchChronicle } from './api/chronicle';
+import { EditChronicle } from './features/edit-chronicle';
 
 const { Header, Content, Footer } = Layout;
 
@@ -43,6 +44,9 @@ export const Application: FunctionComponent<{}> = () => {
               </RenderRoot>
               <RenderRoot stateKey="createChronicle">
                 <CreateChronicle />
+              </RenderRoot>
+              <RenderRoot stateKey="editChronicle">
+                <EditChronicle />
               </RenderRoot>
             </ErrorBoundary>
           </MainContent>

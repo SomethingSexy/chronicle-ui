@@ -8,6 +8,8 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.2.1",
+    "@editorjs/editorjs": "^2.18.0",
+    "@editorjs/paragraph": "^2.7.0",
     "@xstate/react": "^1.0.0-rc.5",
     "antd": "^4.3.5",
     "cross-env": "^7.0.2",
@@ -17,6 +19,7 @@
     "lodash.flowright": "^3.5.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-editor-js": "^1.6.2",
     "react-error-boundary": "^2.2.3",
     "react-transition-group": "^4.4.1",
     "typescript": "^3.9.5",

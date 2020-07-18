@@ -21,6 +21,7 @@ export const ApplicationMachine = Machine<ApplicationMachineContext>(
     },
     on: {
       CREATE_CHRONICLE: 'createChronicle',
+      EDIT_CHRONICLE: 'editChronicle',
       VIEW_CHRONICLE: {
         target: 'viewChronicle',
         actions: [
@@ -37,6 +38,7 @@ export const ApplicationMachine = Machine<ApplicationMachineContext>(
     states: {
       chronicles: {},
       createChronicle: {},
+      editChronicle: {},
       viewChronicle: {
         initial: 'pending',
         states: {

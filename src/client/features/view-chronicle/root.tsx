@@ -68,8 +68,17 @@ export const ViewChronicleRoot: FunctionComponent<{
     send('READ');
   }, [send]);
 
+  const handleEditChronicle = useCallback(() => {
+    send('EDIT_CHRONICLE');
+  }, [send]);
+
   return (
-    <ChronicleView chronicle={chronicle} routes={routes} onCreateCharacter={handleCreateCharacter}>
+    <ChronicleView
+      chronicle={chronicle}
+      routes={routes}
+      onCreateCharacter={handleCreateCharacter}
+      onEditChronicle={handleEditChronicle}
+    >
       {(c) => {
         return (
           <>

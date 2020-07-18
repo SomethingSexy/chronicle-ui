@@ -9,10 +9,19 @@ export interface Chronicle {
    * Brief summary of all characters in the game
    */
   characters: Array<Character>;
+  /**
+   * Reason players should join your game
+   */
   pitch?: string;
   playStyle: 'session' | 'pbp';
+  /**
+   * Detailed description of the game and world
+   */
   description?: string;
-  plotHook: string;
+  /**
+   * Plot hook for players
+   */
+  plotHook?: string;
   // game themes
   // chronicle tenants
 }

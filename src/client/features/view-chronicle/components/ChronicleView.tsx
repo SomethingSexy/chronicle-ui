@@ -11,7 +11,8 @@ export const ChronicleView: FunctionComponent<{
   children: (c: Chronicle) => ReactNode;
   routes: Route[];
   onCreateCharacter: () => void;
-}> = ({ chronicle, children, routes, onCreateCharacter }) => {
+  onEditChronicle: () => void;
+}> = ({ chronicle, children, routes, onCreateCharacter, onEditChronicle }) => {
   const [visible, setVisible] = useState(false);
 
   const handleToggle = useCallback(() => {
@@ -25,7 +26,7 @@ export const ChronicleView: FunctionComponent<{
         subTitle={chronicle.name}
         extra={[
           <Button key="1" type="primary" icon={<FileTextOutlined />} onClick={handleToggle} />,
-          <Button key="2" icon={<EditOutlined />} />,
+          <Button key="2" icon={<EditOutlined />} onClick={onEditChronicle} />,
           <Button key="3">Add Player</Button>,
           <Button key="4" onClick={onCreateCharacter}>
             Add Character

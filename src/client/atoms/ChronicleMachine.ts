@@ -1,4 +1,4 @@
-import { Machine, assign, spawn, Interpreter } from 'xstate';
+import { Machine, assign, spawn, Interpreter, sendParent } from 'xstate';
 
 export interface ChronicleContext {
   chronicleId: string | null;
@@ -23,7 +23,10 @@ export const chronicleMachine = Machine<ChronicleContext>(
     },
     on: {
       'CHARACTER.ADD': 'character.create',
-      READ: 'idle'
+      READ: 'idle',
+      EDIT_CHRONICLE: {
+        actions: sendParent((ctx) => (console.log('commit'), { type: 'EDIT_CHRONICLE', todo: ctx }))
+      }
     },
     states: {
       idle: {
