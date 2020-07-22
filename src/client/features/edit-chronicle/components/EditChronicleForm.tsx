@@ -15,9 +15,10 @@ const tailLayout = {
 };
 
 export const EditChronicleForm: FunctionComponent<{
+  chronicle: Chronicle;
   submitting?: boolean;
   onSubmit: (chronicle: Chronicle) => void;
-}> = ({ submitting, onSubmit }) => {
+}> = ({ chronicle, submitting, onSubmit }) => {
   const onFinish = useCallback(
     (values: Chronicle) => {
       compose(onSubmit, (c) => ({
@@ -30,7 +31,14 @@ export const EditChronicleForm: FunctionComponent<{
   );
 
   return (
-    <Form labelCol={{ span: 4 }} wrapperCol={{ span: 14 }} layout="vertical" size="large" onFinish={onFinish}>
+    <Form
+      labelCol={{ span: 4 }}
+      wrapperCol={{ span: 14 }}
+      layout="vertical"
+      initialValues={chronicle}
+      size="large"
+      onFinish={onFinish}
+    >
       <Title level={2}>Edit Chronicle</Title>
       <Title level={3}>Mechanics</Title>
       <Name />

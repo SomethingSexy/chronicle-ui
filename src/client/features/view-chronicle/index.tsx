@@ -4,7 +4,6 @@ import { useService } from '@xstate/react';
 import { ViewChronicleRoot } from './Root';
 import { Skeleton } from 'antd';
 
-// TODO: Turn this into some sort of child/service loader
 export const ViewChronicle: FunctionComponent = () => {
   const application = useContext(ApplicationContext);
   const [appState] = useService(application);
