@@ -3,6 +3,10 @@ import { Form, Button, Typography, Divider } from 'antd';
 import { compose } from '../../../utils/compose';
 import { Chronicle } from '../../../types';
 import { AntEditor } from '../../../components/Editor';
+import { Description } from '../../../components/fields/chronicle/Description';
+import { Name } from '../../../components/fields/chronicle/Name';
+import { Game } from '../../../components/fields/chronicle/Game';
+import { PlayStyle } from '../../../components/fields/chronicle/PlayStyle';
 
 const { Title } = Typography;
 
@@ -29,15 +33,12 @@ export const EditChronicleForm: FunctionComponent<{
     <Form labelCol={{ span: 4 }} wrapperCol={{ span: 14 }} layout="vertical" size="large" onFinish={onFinish}>
       <Title level={2}>Edit Chronicle</Title>
       <Title level={3}>Mechanics</Title>
-
+      <Name />
+      <Game />
+      <PlayStyle />
       <Divider />
       <Title level={3}>Lore</Title>
-      <Form.Item label="Description">
-        Balls
-        <Form.Item name="description">
-          <AntEditor />
-        </Form.Item>
-      </Form.Item>
+      <Description />
       <Form.Item {...tailLayout}>
         <Button loading={submitting} type="primary" htmlType="submit">
           Submit

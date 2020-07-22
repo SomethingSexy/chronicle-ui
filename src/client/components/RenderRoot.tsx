@@ -7,9 +7,8 @@ export const RenderRoot = ({ children, stateKey }: { children: ReactNode; stateK
   const application = useContext(ApplicationContext);
   const [appState, appSend] = useService(application);
 
-  console.log(appState.value);
   if (appState.matches(stateKey)) {
-    return <div>{children}</div>;
+    return <>{children}</>;
   }
 
   return null;

@@ -1,12 +1,12 @@
-import React, { FunctionComponent, useEffect, useCallback, useMemo, useContext } from 'react';
-import { ChronicleView } from './components/ChronicleView';
-import { Skeleton, Col, Row } from 'antd';
-import { useMachine, useService } from '@xstate/react';
-import { chronicleMachine, ChronicleContext } from '../../atoms/ChronicleMachine';
-import { DefaultView } from './components/DefaultView';
+import React, { FunctionComponent, useCallback, useMemo } from 'react';
+import { ChronicleHeader } from './components/ChronicleHeader';
+import { Divider, Row, Col } from 'antd';
+import { useService } from '@xstate/react';
+import { ChronicleContext } from '../../atoms/ChronicleMachine';
 import { QuickCreateCharacter } from './components/QuickCreateCharacter';
-import { ApplicationContext } from '../../atoms/applicationContext';
 import { Interpreter } from 'xstate';
+import { Players } from './components/Players';
+import { Characters } from './components/Characters';
 
 export const ViewChronicleRoot: FunctionComponent<{
   chronicleRef: Interpreter<ChronicleContext>;
@@ -73,28 +73,31 @@ export const ViewChronicleRoot: FunctionComponent<{
   }, [send]);
 
   return (
-    <ChronicleView
-      chronicle={chronicle}
-      routes={routes}
-      onCreateCharacter={handleCreateCharacter}
-      onEditChronicle={handleEditChronicle}
-    >
-      {(c) => {
-        return (
-          <>
-            {state.matches('character.create') && (
-              <QuickCreateCharacter
-                onCancel={handleDefaultView}
-                onFinish={() => {
-                  send({ type: 'SUBMIT' });
-                }}
-                submitting={state.matches('character.creating')}
-              />
-            )}
-            <DefaultView />
-          </>
-        );
-      }}
-    </ChronicleView>
+    <>
+      <ChronicleHeader
+        chronicle={chronicle}
+        routes={routes}
+        onCreateCharacter={handleCreateCharacter}
+        onEditChronicle={handleEditChronicle}
+      />
+      <Divider />
+      <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+        <Col className="gutter-row" span={12}>
+          <Players />
+        </Col>
+        <Col className="gutter-row" span={12}>
+          <Characters />
+        </Col>
+      </Row>
+      {state.matches('character.create') && (
+        <QuickCreateCharacter
+          onCancel={handleDefaultView}
+          onFinish={() => {
+            send({ type: 'SUBMIT' });
+          }}
+          submitting={state.matches('character.creating')}
+        />
+      )}
+    </>
   );
 };

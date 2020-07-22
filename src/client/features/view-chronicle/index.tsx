@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useContext, useMemo } from 'react';
 import { ApplicationContext } from '../../atoms/applicationContext';
 import { useService } from '@xstate/react';
-import { ViewChronicleRoot } from './root';
+import { ViewChronicleRoot } from './Root';
 import { Skeleton } from 'antd';
 
 // TODO: Turn this into some sort of child/service loader
