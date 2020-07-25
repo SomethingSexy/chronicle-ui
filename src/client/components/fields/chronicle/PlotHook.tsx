@@ -1,13 +1,16 @@
 import { FunctionComponent } from 'react';
-import { PitchLabel } from './PitchLabel';
 import React from 'react';
-import { Form, Input } from 'antd';
-import { PlotHookLabel } from './PlotHookLabel';
+import { Form } from 'antd';
+import { AntEditor } from '../../Editor';
 
 export const PlotHook: FunctionComponent = () => {
   return (
-    <Form.Item name="plotHook" label={<PlotHookLabel />}>
-      <Input.TextArea />
+    <Form.Item>
+      A plot hook gets a character (or group) started down the line of a plot. The characters are usually free to ignore
+      the plot hook, and they can often even escape the plot line after they bite the hook.
+      <Form.Item name="plotHook">
+        <AntEditor holder="plotHook" />
+      </Form.Item>
     </Form.Item>
   );
 };

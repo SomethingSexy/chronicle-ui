@@ -4,10 +4,10 @@ import { AntEditor } from '../../Editor';
 
 export const Description: FunctionComponent = () => {
   return (
-    <Form.Item label="Description">
+    <Form.Item>
       Detailed description of the world the chronicle is set in.
       <Form.Item name="description">
-        <AntEditor />
+        <AntEditor holder="description" />
       </Form.Item>
     </Form.Item>
   );

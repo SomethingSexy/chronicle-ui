@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useCallback, useMemo } from 'react';
-import { ChronicleHeader } from './components/ChronicleHeader';
+import { ChronicleNavigation } from './components/ChronicleNavigation';
 import { Divider, Row, Col, Layout, Menu, Breadcrumb } from 'antd';
 import { useService } from '@xstate/react';
 import { ChronicleContext } from '../../atoms/ChronicleMachine';
@@ -20,6 +20,8 @@ import {
   PictureOutlined
 } from '@ant-design/icons';
 import { FeatureContent } from '../../components/layout/FeatureContext';
+import { ChronicleMenu } from './components/ChronicleMenu';
+import { World } from './components/World';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -75,46 +77,24 @@ export const ViewChronicleRoot: FunctionComponent<{
     }
   }, [chronicle, state]);
 
-  const handleCreateCharacter = useCallback(() => {
-    send('CHARACTER.ADD');
-  }, [send]);
+  // const handleCreateCharacter = useCallback(() => {
+  //   send('CHARACTER.ADD');
+  // }, [send]);
 
-  const handleDefaultView = useCallback(() => {
-    send('READ');
-  }, [send]);
+  // const handleDefaultView = useCallback(() => {
+  //   send('READ');
+  // }, [send]);
 
-  const handleEditChronicle = useCallback(() => {
-    send('EDIT_CHRONICLE');
-  }, [send]);
+  // const handleEditChronicle = useCallback(() => {
+  //   send('EDIT_CHRONICLE');
+  // }, [send]);
 
   return (
     <>
-      <Sider collapsible collapsed={true} width={200} style={{ background: '#fff', borderRight: '1px solid #f0f0f0' }}>
-        <Menu defaultSelectedKeys={['1']} mode="inline">
-          <Menu.Item key="1" icon={<GlobalOutlined />}>
-            World
-          </Menu.Item>
-          <Menu.Item key="2" icon={<UserOutlined />}>
-            Players
-          </Menu.Item>
-          <Menu.Item key="2" icon={<TeamOutlined />}>
-            Characters
-          </Menu.Item>
-          <Menu.Item key="2" icon={<PictureOutlined />}>
-            Locations
-          </Menu.Item>
-          <Menu.Item key="2" icon={<ApartmentOutlined />}>
-            Relationships
-          </Menu.Item>
-        </Menu>
-      </Sider>
+      <ChronicleMenu />
       <FeatureContent>
-        <ChronicleHeader
-          chronicle={chronicle}
-          routes={routes}
-          onCreateCharacter={handleCreateCharacter}
-          onEditChronicle={handleEditChronicle}
-        />
+        <ChronicleNavigation chronicle={chronicle} route="World" />
+        <World />
       </FeatureContent>
     </>
   );

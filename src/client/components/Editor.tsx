@@ -37,9 +37,10 @@ export const EDITOR_JS_TOOLS: {
 };
 
 export const AntEditor: FunctionComponent<{
+  holder: string;
   value: OutputData;
   onChange: (v: OutputData) => void;
-}> = ({ value, onChange }) => {
+}> = ({ holder, value, onChange }) => {
   const handleOnChange = useCallback(
     (a: API, data?: OutputData) => {
       onChange(data);
@@ -47,5 +48,9 @@ export const AntEditor: FunctionComponent<{
     [onChange]
   );
 
-  return <EditorJs data={value} tools={EDITOR_JS_TOOLS} onChange={handleOnChange} />;
+  return (
+    <EditorJs holder={holder} data={value} tools={EDITOR_JS_TOOLS} onChange={handleOnChange}>
+      <div id={holder} />
+    </EditorJs>
+  );
 };

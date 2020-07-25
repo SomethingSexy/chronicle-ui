@@ -1,17 +1,15 @@
 import { FunctionComponent, useState, useCallback } from 'react';
 import React from 'react';
-import { Breadcrumb, PageHeader, Button, Typography } from 'antd';
+import { Breadcrumb, Button } from 'antd';
 import { ChronicleSummary } from './ChronicleSummary';
 import { Route } from 'antd/lib/breadcrumb/Breadcrumb';
-import { EditOutlined, FileTextOutlined } from '@ant-design/icons';
+import { FileTextOutlined } from '@ant-design/icons';
 import { Chronicle } from '../../../types';
 
-export const ChronicleHeader: FunctionComponent<{
+export const ChronicleNavigation: FunctionComponent<{
   chronicle: Chronicle;
-  routes: Route[];
-  onCreateCharacter: () => void;
-  onEditChronicle: () => void;
-}> = ({ chronicle, routes, onCreateCharacter, onEditChronicle }) => {
+  route: string;
+}> = ({ chronicle, route }) => {
   const [visible, setVisible] = useState(false);
 
   const handleToggle = useCallback(() => {
@@ -22,7 +20,7 @@ export const ChronicleHeader: FunctionComponent<{
       <Breadcrumb style={{ margin: '16px 0' }}>
         <Breadcrumb.Item>Chronicles</Breadcrumb.Item>
         <Breadcrumb.Item>{chronicle.name}</Breadcrumb.Item>
-        <Breadcrumb.Item>App</Breadcrumb.Item>
+        <Breadcrumb.Item>{route}</Breadcrumb.Item>
       </Breadcrumb>
       <Button
         key="1"
