@@ -6,6 +6,7 @@ import { createChronicle } from '../../api/chronicle';
 import { ApplicationContext } from '../../atoms/applicationContext';
 import { Chronicle } from '../../types';
 import { createChronicleMachine } from './state/CreateChronicleMachine';
+import { FeatureContent } from '../../components/layout/FeatureContext';
 
 const { Title } = Typography;
 
@@ -35,9 +36,9 @@ export const CreateChronicle: FunctionComponent<{}> = () => {
   }
 
   return (
-    <>
+    <FeatureContent>
       <Title level={2}>Create New Chronicle</Title>
       <QuickCreateChronicle submitting={state.matches('submitting')} onSubmit={handleChange} />
-    </>
+    </FeatureContent>
   );
 };

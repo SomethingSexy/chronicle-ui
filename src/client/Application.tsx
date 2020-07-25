@@ -26,6 +26,7 @@ export const Application: FunctionComponent<{}> = () => {
       }
     }
   });
+
   return (
     <ApplicationContext.Provider value={service}>
       <Layout>
@@ -33,26 +34,53 @@ export const Application: FunctionComponent<{}> = () => {
           <Logo />
           <MainNav />
         </Header>
-        <Content style={{ padding: '0 50px' }}>
-          <MainContent>
-            <ErrorBoundary>
-              <RenderRoot stateKey="chronicles">
-                <ViewChronicles />
-              </RenderRoot>
-              <RenderRoot stateKey="viewChronicle">
-                <ViewChronicle />
-              </RenderRoot>
-              <RenderRoot stateKey="createChronicle">
-                <CreateChronicle />
-              </RenderRoot>
-              <RenderRoot stateKey="editChronicle">
-                <EditChronicle />
-              </RenderRoot>
-            </ErrorBoundary>
-          </MainContent>
-        </Content>
+        <MainContent>
+          <ErrorBoundary>
+            <RenderRoot stateKey="chronicles">
+              <ViewChronicles />
+            </RenderRoot>
+            <RenderRoot stateKey="viewChronicle">
+              <ViewChronicle />
+            </RenderRoot>
+            <RenderRoot stateKey="createChronicle">
+              <CreateChronicle />
+            </RenderRoot>
+            <RenderRoot stateKey="editChronicle">
+              <EditChronicle />
+            </RenderRoot>
+          </ErrorBoundary>
+        </MainContent>
         <Footer style={{ textAlign: 'center' }}>Chronicle UI Created by Tyler Cvetan</Footer>
       </Layout>
     </ApplicationContext.Provider>
   );
+  // return (
+  //   <ApplicationContext.Provider value={service}>
+  //     <Layout>
+  //       <Header>
+  //         <Logo />
+  //         <MainNav />
+  //       </Header>
+  //       <Content style={{ padding: '0 50px' }}>
+  //         <MainContent>
+  //           <ErrorBoundary>
+  //             <RenderRoot stateKey="chronicles">
+  //               <ViewChronicles />
+  //             </RenderRoot>
+  //             <RenderRoot stateKey="viewChronicle">
+  //               <ViewChronicle />
+  //             </RenderRoot>
+  //             <RenderRoot stateKey="createChronicle">
+  //               <CreateChronicle />
+  //             </RenderRoot>
+  //             <RenderRoot stateKey="editChronicle">
+  //               <EditChronicle />
+  //             </RenderRoot>
+  //           </ErrorBoundary>
+  //         </MainContent>
+  //       </Content>
+  //       <Footer style={{ textAlign: 'center' }}>Chronicle UI Created by Tyler Cvetan</Footer>
+  //     </Layout>
+  //   </ApplicationContext.Provider>
+  // );
 };

@@ -1,6 +1,6 @@
 import { FunctionComponent, useState, useCallback } from 'react';
 import React from 'react';
-import { PageHeader, Button, Typography } from 'antd';
+import { Breadcrumb, PageHeader, Button, Typography } from 'antd';
 import { ChronicleSummary } from './ChronicleSummary';
 import { Route } from 'antd/lib/breadcrumb/Breadcrumb';
 import { EditOutlined, FileTextOutlined } from '@ant-design/icons';
@@ -19,21 +19,18 @@ export const ChronicleHeader: FunctionComponent<{
   }, [visible, setVisible]);
   return (
     <>
-      <PageHeader
-        title="Chronicle"
-        breadcrumb={{ routes }}
-        subTitle={chronicle.name}
-        extra={[
-          <Button key="1" type="primary" icon={<FileTextOutlined />} onClick={handleToggle} />,
-          <Button key="2" icon={<EditOutlined />} onClick={onEditChronicle} />,
-          <Button key="3">Add Player</Button>,
-          <Button key="4" onClick={onCreateCharacter}>
-            Add Character
-          </Button>
-        ]}
-      >
-        {chronicle.pitch && <Typography>{chronicle.pitch}</Typography>}
-      </PageHeader>
+      <Breadcrumb style={{ margin: '16px 0' }}>
+        <Breadcrumb.Item>Chronicles</Breadcrumb.Item>
+        <Breadcrumb.Item>{chronicle.name}</Breadcrumb.Item>
+        <Breadcrumb.Item>App</Breadcrumb.Item>
+      </Breadcrumb>
+      <Button
+        key="1"
+        type="primary"
+        icon={<FileTextOutlined />}
+        onClick={handleToggle}
+        style={{ position: 'absolute', right: '24px', top: 0 }}
+      />
       <ChronicleSummary chronicle={chronicle} visible={visible} onClose={handleToggle} />
     </>
   );
