@@ -1,6 +1,13 @@
 import React from 'react';
 import { Layout, Menu } from 'antd';
-import { ApartmentOutlined, GlobalOutlined, UserOutlined, TeamOutlined, PictureOutlined } from '@ant-design/icons';
+import {
+  ApartmentOutlined,
+  GlobalOutlined,
+  UserOutlined,
+  TeamOutlined,
+  PictureOutlined,
+  BookOutlined
+} from '@ant-design/icons';
 
 const { Sider } = Layout;
 const { Item } = Menu;
@@ -8,20 +15,23 @@ const { Item } = Menu;
 export const ChronicleMenu = () => {
   return (
     <Sider collapsible collapsed={true} width={200} style={{ background: '#fff', borderRight: '1px solid #f0f0f0' }}>
-      <Menu defaultSelectedKeys={['1']} mode="inline">
-        <Item key="1" icon={<GlobalOutlined />}>
+      <Menu defaultSelectedKeys={['world']} mode="inline" onClick={({ item, key }) => console.log(item, key)}>
+        <Item key="world" icon={<GlobalOutlined />}>
           World
         </Item>
-        <Item key="2" icon={<UserOutlined />}>
+        <Item key="story" icon={<BookOutlined />}>
+          Story
+        </Item>
+        <Item key="players" icon={<UserOutlined />}>
           Players
         </Item>
-        <Item key="3" icon={<TeamOutlined />}>
+        <Item key="characters" icon={<TeamOutlined />}>
           Characters
         </Item>
-        <Item key="4" icon={<PictureOutlined />}>
+        <Item key="locations" icon={<PictureOutlined />}>
           Locations
         </Item>
-        <Item key="5" icon={<ApartmentOutlined />}>
+        <Item key="relationships" icon={<ApartmentOutlined />}>
           Relationships
         </Item>
       </Menu>

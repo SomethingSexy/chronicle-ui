@@ -34,30 +34,6 @@ export const chronicleMachine = Machine<ChronicleContext>(
         // TODO: Add guard to know if we should actually go to initializing
         // on: { FETCH: [{ target: 'initializing', actions: ['onChange'] }] }
       },
-      // initializing: {
-      //   initial: 'pending',
-      //   states: {
-      //     idle: {},
-      //     pending: {
-      //       invoke: {
-      //         src: 'fetchData',
-      //         onDone: { target: 'successful', actions: ['setResults', 'setCharacters'] },
-      //         onError: { target: 'failed', actions: ['setMessage'] }
-      //       }
-      //     },
-      //     failed: {
-      //       on: {
-      //         FETCH: 'pending'
-      //       }
-      //     },
-      //     successful: {
-      //       always: '#idle',
-      //       on: {
-      //         FETCH: 'pending'
-      //       }
-      //     }
-      //   }
-      // },
       character: {
         initial: 'reading',
         states: {
